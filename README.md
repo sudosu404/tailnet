@@ -100,24 +100,24 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 2. Open `docker-compose.yaml`
 
 3. Comment out the `image` tag:
-```yaml
-# image: valentemath/tailgate:latest
-```
+    ```yaml
+    # image: valentemath/tailgate:latest
+    ```
 
 4. Set the `args/PLUGINS` tag to include whichever plugins you want:
-```yaml
-args:
-    PLUGINS: "github.com/caddy-dns/duckdns github.com/caddy-dns/route53"
-```
+    ```yaml
+    args:
+        PLUGINS: "github.com/caddy-dns/duckdns github.com/caddy-dns/route53"
+    ```
 
 5. Build and run: 
-```bash
-docker compose up -d --build
-```
+    ```bash
+    docker compose up -d --build
+    ```
 
 ## Notes
 
-I am new to Docker, so this container might be a bit "chubby." It's built on Debian Bookworm and includes some debugging tools that you might find helpful, should any issues arise. As such, any bug reports or pull requests with improvements are most welcome! 
+I am new to Docker, so this container might be a bit "chubby." It's built on Debian Bookworm and includes some debugging tools that you might find helpful (`ping`, `dig`, and `nslookup`), should any issues arise. As such, any bug reports or pull requests with improvements are most welcome! 
 
 ## Thanks
 
