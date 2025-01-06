@@ -1,0 +1,25 @@
+services:
+  tailgate:
+    image: valentemath/tailgate:latest
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PLUGINS: "github.com/caddy-dns/cloudflare"
+
+    container_name: tailgate
+
+    environment:
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - TAILSCALE_AUTHKEY=${TAILSCALE_REUSABLE_AUTHKEY}
+      - TAILSCALE_HOSTNAME=${TAILSCALE_HOSTNAME}
+      - TAILNET_NAME=${TAILNET_NAME}
+
+    volumes:
+      - tailscale-state:/tailscale
+      - caddy-config:/etc/caddy
+
+volumes:
+  tailscale-state:
+  caddy-config:
