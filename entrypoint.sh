@@ -9,7 +9,6 @@ tailscaled \
   --socket=/var/run/tailscale/tailscaled.sock \
   --tun=userspace-networking \
   &
-  
 sleep 5
 
 # Set up MagicDNS
@@ -19,6 +18,11 @@ nameserver 127.0.0.11
 search ${TAILNET_NAME} local
 options ndots:0
 EOF
+
+# Set default hostname if not provided
+if [ -z "${TAILSCALE_HOSTNAME}" ]; then
+  TAILSCALE_HOSTNAME="tailgate"
+fi
 
 # Log in to Tailscale if not already logged in
 if tailscale status 2>/dev/null | grep -q '100\.'; then

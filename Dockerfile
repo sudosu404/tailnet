@@ -83,7 +83,7 @@ RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | t
  && apt-get install -y --no-install-recommends tailscale \
  && rm -rf /var/lib/apt/lists/*
 
-# (4) Copy the caddy binary from the builder stage
+# (4) Copy the custom caddy binary from the builder stage
 COPY --from=builder /caddy /usr/bin/caddy
 
 # (5) Copy the entrypoint script
