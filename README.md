@@ -1,8 +1,6 @@
 # Tailgate
 
-**An easy-to-deploy Tailscale + Caddy container with plugins.**
-
-A Docker image that bundles **[Tailscale](https://tailscale.com/)** and **[Caddy](https://caddyserver.com/)** into one container. This allows you to:
+**An easy-to-deploy [Tailscale](https://tailscale.com/) + [Caddy](https://caddyserver.com/) container with plugins.**
 
 - **Expose** Caddy services through Tailscale for secure, private connections.
 - Optionally run Caddy with **Cloudflare DNS challenges**, or any other [Caddy plugins](https://caddyserver.com/download).
