@@ -22,28 +22,28 @@ RUN apt-get update && \
         file \
         procps \
         ruby \
+        wget \
     && rm -rf /var/lib/apt/lists/*
 
-# (3) Install Homebrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# (3) Download and install the latest Golang
+RUN wget https://go.dev/dl/go1.23.5.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.23.5.linux-amd64.tar.gz \
+    && rm go1.23.5.linux-amd64.tar.gz
 
-# (4) Add Homebrew to PATH
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
+# (3) Add Golang to PATH
+ENV PATH="/usr/local/go/bin:$PATH"
 
-# (5) Install Go with Homebrew (the apt version is outdated and causes build errors)
-RUN brew install go
-
-# (6) Install xcaddy
+# (4) Install xcaddy
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg \
  && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-xcaddy.list \
  && apt-get update \
  && apt-get install -y xcaddy \
  && rm -rf /var/lib/apt/lists/*
 
-# (7) Initialize plugin list
+# (5) Initialize plugin list
 ARG PLUGINS=""
 
-# (8) Build caddy with plugins
+# (6) Build caddy with plugins
 RUN if [ -n "$PLUGINS" ]; then \
     echo "Building custom caddy with plugins: $PLUGINS"; \
     PLUGIN_ARGS=""; \
