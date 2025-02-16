@@ -71,6 +71,9 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 - **TAILNET_NAME (optional)**
   Your Tailnet name for [MagicDNS](https://tailscale.com/kb/1081/magicdns).
 
+- **CADDY_WATCH (optional)**
+  Sets the caddy `--watch` option to automatically reload the configuration when changes are made to the Caddyfile. 
+
 - **CLOUDFLARE_API_TOKEN (optional)**  
   If you’re using the Cloudflare plugin for [ACME challenges](https://caddyserver.com/docs/caddyfile/directives/tls#dns-providers), set your token here. Then in your `Caddyfile` add:
   
