@@ -40,7 +40,7 @@ fi
 # Run caddy
 if [ -f /etc/caddy/Caddyfile ]; then
   # Use the Caddyfile in the /etc/caddy directory if it exists
-  if [ "$CADDY_WATCH" = "true" ]; then
+  if [ "${CADDY_WATCH}" = "true" ]; then
     exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile --watch
   else
     exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
