@@ -4,6 +4,7 @@
 
 - **Expose** Caddy services through Tailscale for secure, private connections.
 - Optionally run Caddy with **Cloudflare DNS challenges**, or any other [Caddy plugins](https://caddyserver.com/download).
+  - Now includes an image with [Sablier](https://sablierapp.dev/) out-of-the-box!
 
 The idea was to make a container that would allow you to simply follow this tutorial: [Remotely access and share your self-hosted services](https://www.youtube.com/watch?v=Vt4PDUXB_fg⁠). I decided to create this project after having trouble with existing solutions. 
 
