@@ -1,9 +1,19 @@
 services:
   tailgate:
     image: valentemath/tailgate:latest
-
     build:
       context: .
       dockerfile: Dockerfile
       args:
         PLUGINS: "github.com/caddy-dns/cloudflare"
+
+  tailgate-sablier:
+    image: valentemath/tailgate:latest-with-sablier
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PLUGINS: "
+          github.com/caddy-dns/cloudflare
+          github.com/acouvreur/sablier/plugins/caddy
+          "
