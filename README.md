@@ -1,4 +1,4 @@
-# Tailgate
+# Tailnet-caddy
 
 **An easy-to-deploy [Tailscale](https://tailscale.com/) + [Caddy](https://caddyserver.com/) container with plugins.**
 
