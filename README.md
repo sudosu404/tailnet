@@ -8,8 +8,6 @@
 
 The idea was to make a container that would allow you to simply follow this tutorial: [Remotely access and share your self-hosted services](https://www.youtube.com/watch?v=Vt4PDUXB_fg⁠). I decided to create this project after having trouble with existing solutions. 
 
-The container on [Docker Hub](https://hub.docker.com/r/valentemath/tailgate) is built with the Cloudflare plugin preinstalled, but if you need different plugins, you can build your own image by following the instructions [below](#building-with-other-plugins).
-
 ## Getting Started
 
 If you want to use the Cloudflare plugin:
@@ -96,7 +94,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 1. **Clone** this repo:
    ```bash
-   git clone https://github.com/mr-valente/tailgate.git
+   git clone https://github.com/sudosu404/tailnet-caddy.git
    ```
 
 2. Open `docker-compose.yaml`
