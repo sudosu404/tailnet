@@ -1,0 +1,10 @@
+(cloudflare) {
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+petskingdomvet.com {
+    import cloudflare
+    # Whatever you want, e.g.
+    reverse_proxy {env.TAILSCALE_HOSTNAME}.{env.TAILNET_NAME}:80
+}

@@ -85,7 +85,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
   yourdomain.com {
       import cloudflare
       # Whatever you want, e.g.
-      # reverse_proxy my-server.my-tailnet.ts.net:80
+      # reverse_proxy {env.TAILSCALE_HOSTNAME}.{env.TAILNET_NAME}:80
   }
   ```
 
@@ -117,7 +117,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 ## Notes
 
-I am new to Docker, so this container might be a bit "chubby." It's built on Debian Bookworm and includes some debugging tools that you might find helpful (`ping`, `dig`, and `nslookup`), should any issues arise. As such, any bug reports or pull requests with improvements are most welcome! 
+It's built on Debian Bookworm and includes some debugging tools that you might find helpful (`ping`, `dig`, and `nslookup`), should any issues arise. As such, any bug reports or pull requests with improvements are most welcome! 
 
 ## Thanks
 
