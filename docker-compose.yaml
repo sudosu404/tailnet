@@ -1,5 +1,5 @@
 services:
-  tailgate:
+  tailnet:
     image: sudosu404/tailnet-caddy:latest
     build:
       context: .
@@ -7,7 +7,7 @@ services:
       args:
         PLUGINS: "github.com/caddy-dns/cloudflare"
 
-  tailgate-sablier:
+  tailnet-sablier:
      image: sudosu404/tailnet-caddy:latest-with-sablier
     build:
       context: .

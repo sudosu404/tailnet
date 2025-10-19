@@ -1,4 +1,4 @@
-# Tailnet-caddy
+# Tailnet Caddy
 
 **An easy-to-deploy [Tailscale](https://tailscale.com/) + [Caddy](https://caddyserver.com/) container with plugins.**
 
@@ -21,28 +21,28 @@ See [Environment Variable](#environment-variables) below and set your own values
 
 ```bash
 docker run -d \
-  --name tailgate \
+  --name tailnet \
   -e TAILSCALE_AUTHKEY=tskey-abc123 \
-  -e TAILSCALE_HOSTNAME=tailgate \
+  -e TAILSCALE_HOSTNAME=tailnet \
   -e TAILNET_NAME=my-tailnet.ts.net \
   -e CLOUDFLARE_API_TOKEN=abc123 \
   -v tailscale-state:/tailscale \
   -v caddy-config:/etc/caddy \
-  valentemath/tailgate:latest
+  valentemath/tailnet:latest
 ```
 
 #### With `docker compose`
 
 ```yaml
 services:
-  tailgate:
-    image: valentemath/tailgate:latest
-    container_name: tailgate
+  tailnet:
+    image: valentemath/tailnet:latest
+    container_name: tailnet
 
     environment:
       - TAILSCALE_AUTHKEY=tskey-abc123
       - TAILNET_NAME=my-tailnet.ts.net
-      - TAILSCALE_HOSTNAME=tailgate
+      - TAILSCALE_HOSTNAME=tailnet
       - CLOUDFLARE_API_TOKEN=abc123
 
     volumes:
@@ -65,7 +65,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
   The [auth key](https://tailscale.com/kb/1085/auth-keys/) used to join your Tailnet. Once authenticated, you typically do not need this again (it’s stored in `/tailscale/tailscaled.state`).
 
 - **TAILSCALE_HOSTNAME (optional)**  
-  Hostname for your Tailscale node. Defaults to "tailgate."
+  Hostname for your Tailscale node. Defaults to "tailnet."
 
 - **TAILNET_NAME (optional)**
   Your Tailnet name for [MagicDNS](https://tailscale.com/kb/1081/magicdns).
@@ -101,7 +101,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 3. Comment out the `image` tag:
     ```yaml
-    # image: valentemath/tailgate:latest
+    # image: valentemath/tailnet:latest
     ```
 
 4. Set the `args/PLUGINS` tag to include whichever plugins you want:

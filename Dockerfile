@@ -26,9 +26,9 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # (3) Download and install the latest Golang
-RUN wget https://go.dev/dl/go1.23.5.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.23.5.linux-amd64.tar.gz \
-    && rm go1.23.5.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go1.25.3.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go1.25.3.linux-amd64.tar.gz \
+    && rm go1.25.3.linux-amd64.tar.gz
 
 # (3) Add Golang to PATH
 ENV PATH="/usr/local/go/bin:$PATH"
