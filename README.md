@@ -28,7 +28,7 @@ docker run -d \
   -e CLOUDFLARE_API_TOKEN=abc123 \
   -v tailscale-state:/tailscale \
   -v caddy-config:/etc/caddy \
-  valentemath/tailnet:latest
+  sudosu404/tailnet:latest
 ```
 
 #### With `docker compose`
@@ -36,7 +36,7 @@ docker run -d \
 ```yaml
 services:
   tailnet:
-    image: valentemath/tailnet:latest
+    image: sudosu404/tailnet:latest
     container_name: tailnet
 
     environment:
@@ -101,7 +101,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 3. Comment out the `image` tag:
     ```yaml
-    # image: valentemath/tailnet:latest
+    # image: sudosu404/tailnet:latest
     ```
 
 4. Set the `args/PLUGINS` tag to include whichever plugins you want:
