@@ -1,5 +1,5 @@
 services:
-  tailnet-sablier:
+  tailnet-caddy:
     image: ghcr.io/sudosu404/tailnet-caddy:latest
     build:
       context: .
