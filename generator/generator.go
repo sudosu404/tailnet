@@ -14,9 +14,9 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/api/types/swarm"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/caddyfile"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/config"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/docker"
+	"github.com/sudosu404/tailnet/v2/caddyfile"
+	"github.com/sudosu404/tailnet/v2/config"
+	"github.com/sudosu404/tailnet/v2/docker"
 
 	"go.uber.org/zap"
 )

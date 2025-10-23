@@ -10,8 +10,8 @@ import (
 
 	"github.com/caddyserver/caddy/v2"
 	caddycmd "github.com/caddyserver/caddy/v2/cmd"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/config"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/generator"
+	"github.com/sudosu404/tailnet/v2/config"
+	"github.com/sudosu404/tailnet/v2/generator"
 
 	"go.uber.org/zap"
 )

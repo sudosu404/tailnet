@@ -19,10 +19,10 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
 	"github.com/joho/godotenv"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/config"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/docker"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/generator"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/utils"
+	"github.com/sudosu404/tailnet/v2/config"
+	"github.com/sudosu404/tailnet/v2/docker"
+	"github.com/sudosu404/tailnet/v2/generator"
+	"github.com/sudosu404/tailnet/v2/utils"
 
 	"go.uber.org/zap"
 )

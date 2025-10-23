@@ -2,7 +2,7 @@ package generator
 
 import (
 	"github.com/docker/docker/api/types"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/caddyfile"
+	"github.com/sudosu404/tailnet/v2/caddyfile"
 	"go.uber.org/zap"
 )
 

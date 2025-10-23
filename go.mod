@@ -1,4 +1,4 @@
-module github.com/gnx-labs-orgs/tailnet-labs/v2
+module github.com/sudosu404/tailnet/v2
 
 go 1.25
 

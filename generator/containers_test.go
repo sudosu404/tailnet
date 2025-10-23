@@ -5,7 +5,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/network"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/config"
+	"github.com/sudosu404/tailnet/v2/config"
 )
 
 func TestContainers_TemplateData(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 	"text/template"
 	"sort"
 
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/caddyfile"
+	"github.com/sudosu404/tailnet/v2/caddyfile"
 )
 
 type targetsProvider func() ([]string, error)

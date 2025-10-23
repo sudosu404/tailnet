@@ -7,7 +7,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/swarm"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/caddyfile"
+	"github.com/sudosu404/tailnet/v2/caddyfile"
 
 	"go.uber.org/zap"
 )

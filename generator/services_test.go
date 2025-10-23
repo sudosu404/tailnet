@@ -6,7 +6,7 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/api/types/swarm"
 	"github.com/docker/docker/api/types/system"
-	"github.com/gnx-labs-orgs/tailnet-labs/v2/config"
+	"github.com/sudosu404/tailnet/v2/config"
 )
 
 func TestServices_TemplateData(t *testing.T) {
