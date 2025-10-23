@@ -1,1 +1,10 @@
 .env
+artifacts
+vendor
+debug.test
+local
+.DS_Store
+buildenv_*
+TAILSCALE_AUTHKEY_FILE
+CLOUDFLARE_API_TOKEN_FILE
+DOCKER_PASSWORD
