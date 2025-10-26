@@ -1,6 +1,0 @@
-service.local {
-  handle {$ENV_HANDLE_PATH} {
-    respond "Hello from TestEnv"
-  }
-  tls internal
-}

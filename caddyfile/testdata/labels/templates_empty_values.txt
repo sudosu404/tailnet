@@ -1,6 +1,0 @@
-tailnet     = localhost
-tailnet.key = {{""}}
-----------
-localhost {
-	key
-}

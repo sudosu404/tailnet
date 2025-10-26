@@ -1,8 +1,0 @@
-tailnet     = localhost
-tailnet.bbb = value
-tailnet.aaa = value
-----------
-localhost {
-	aaa value
-	bbb value
-}

@@ -1,5 +1,0 @@
-# This is an example Caddyfile stored inside docker swarm config
-config.tailnet.gnx {
-    respond / "Hello World" 200
-    tls internal
-}
