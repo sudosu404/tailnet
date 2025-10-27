@@ -1,11 +1,14 @@
-ARG GO_VERSION=1.25
-FROM --platform=$BUILDPLATFORM golang:${GO_VERSION}-alpine AS build
+FROM --platform=${BUILDPLATFORM} alpine:3.20.3 AS alpine
+RUN apk add -U --no-cache ca-certificates
 
-WORKDIR /work
+# Image starts here
+FROM scratch
+ARG TARGETPLATFORM
+LABEL maintainer="Hector <hector@email.gnx>"
 
-# Install git so that go build populates the VCS details in build info, which
-# is then reported to Tailscale in the node version string.
-RUN apk --no-cache add git=2.49.1-r0
+EXPOSE 80 443 2019
+ENV XDG_CONFIG_HOME=config
+ENV XDG_DATA_HOME=data
 
 COPY go.mod go.sum ./
 RUN go mod download
