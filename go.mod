@@ -1,4 +1,4 @@
-module github.com/sudosu404/tailnet-proxy
+module github.com/sudosu404/tailnet
 
 go 1.25.1
 

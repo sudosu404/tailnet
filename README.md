@@ -92,7 +92,7 @@ Mount `/config` if you want persistence — or don’t, and watch it vanish like
 Feeling adventurous? Compile it manually using [xcaddy](https://github.com/caddyserver/xcaddy):
 
 ```bash
-xcaddy build v2.9.1 --with github.com/sudosu404/tailnet-proxy
+xcaddy build v2.9.1 --with github.com/sudosu404/tailnet
 ```
 
 Or go the full “mad scientist” route:
