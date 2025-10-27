@@ -153,7 +153,7 @@ We welcome chaos as long as it compiles.
 
 ## :parrot: License
 
-(U+26A1) U+26A1 AGPL-3.0 — because sharing is caring (and slightly legally enforced).  
+AGPL-3.0 — because sharing is caring (and slightly legally enforced).  
 
 ---
 
