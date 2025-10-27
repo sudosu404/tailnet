@@ -46,7 +46,7 @@ func (t *Transport) CaddyModule() caddy.ModuleInfo {
 //
 // If a node name is not specified, a default name is used.
 func (t *Transport) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
-	const defaultNodeName = "caddy-proxy"
+	const defaultNodeName = "tailnet-proxy"
 
 	d.Next() // skip transport name
 	if d.NextArg() {
