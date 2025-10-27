@@ -12,7 +12,7 @@ Say no more, brave sysadmin — **this plugin shoves a full Tailscale node right
 Yes, you heard that right. One binary to rule your tailnet, serve your sites, and occasionally confuse you. :mage:
 
 With **Tailnet Labs**, you can:
-- :puzzle: Serve sites directly on your **Tailnet**
+- :fire: Serve sites directly on your **Tailnet**
 - :detective: Proxy requests between Tailscale nodes (yes, through the magic tunnel)
 - :lock: Authenticate users by their Tailscale identity
 - :whale: Run the whole circus inside Docker, because of course you can
@@ -54,7 +54,7 @@ If it works, congrats. If not — hey, you’ve got logs now. :smirk:
 
 ---
 
-## :puzzle: Example Use (a.k.a. Why It’s Kinda Cool)
+## :fire: Example Use (a.k.a. Why It’s Kinda Cool)
 
 Want to serve a private site on your tailnet?  
 Just slap this into your `Caddyfile`:
@@ -123,7 +123,7 @@ Expect approximately **400 lines per second** of “totally helpful” output.
 
 ---
 
-## :juice: TL;DR
+## :smile: TL;DR
 
 | You want to…                        | You should…                                           |
 |------------------------------------|-------------------------------------------------------|
@@ -144,7 +144,7 @@ If it breaks, you get to keep both pieces.
 
 ---
 
-## :juice: Contribute
+## :smile: Contribute
 
 Fork it, break it, PR it.  
 We welcome chaos as long as it compiles.
@@ -153,7 +153,7 @@ We welcome chaos as long as it compiles.
 
 ## :parrot: License
 
-AGPL-3.0 — because sharing is caring (and slightly legally enforced).  
+(U+26A1) U+26A1 AGPL-3.0 — because sharing is caring (and slightly legally enforced).  
 
 ---
 
