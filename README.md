@@ -123,7 +123,7 @@ Expect approximately **400 lines per second** of “totally helpful” output.
 
 ---
 
-## :juice_box: TL;DR
+## :juice: TL;DR
 
 | You want to…                        | You should…                                           |
 |------------------------------------|-------------------------------------------------------|
@@ -144,7 +144,7 @@ If it breaks, you get to keep both pieces.
 
 ---
 
-## :juice_box: Contribute
+## :juice: Contribute
 
 Fork it, break it, PR it.  
 We welcome chaos as long as it compiles.
