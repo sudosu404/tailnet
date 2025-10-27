@@ -1,14 +1,14 @@
-FROM --platform=${BUILDPLATFORM} alpine:3.20.3 as alpine
+FROM --platform=${BUILDPLATFORM} alpine:3.20.3 AS alpine
 RUN apk add -U --no-cache ca-certificates
 
 # Image starts here
 FROM scratch
 ARG TARGETPLATFORM
-LABEL maintainer "Hector <hector@email.gnx>"
+LABEL maintainer="Hector <hector@email.gnx>"
 
 EXPOSE 80 443 2019
-ENV XDG_CONFIG_HOME /config
-ENV XDG_DATA_HOME /data
+ENV XDG_CONFIG_HOME=config
+ENV XDG_DATA_HOME=data
 
 WORKDIR /
 
