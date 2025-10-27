@@ -1,5 +1,0 @@
-tailnet.key = value
-----------
-{
-	key value
-}

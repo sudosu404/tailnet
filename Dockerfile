@@ -10,12 +10,39 @@ EXPOSE 80 443 2019
 ENV XDG_CONFIG_HOME=config
 ENV XDG_DATA_HOME=data
 
-WORKDIR /
+COPY go.mod go.sum ./
+RUN go mod download
 
-COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY . .
+ARG TARGETOS TARGETARCH TARGETVARIANT
+RUN \
+  if [ "${TARGETARCH}" = "arm" ] && [ -n "${TARGETVARIANT}" ]; then \
+  export GOARM="${TARGETVARIANT#v}"; \
+  fi; \
+  GOOS=${TARGETOS} GOARCH=${TARGETARCH} CGO_ENABLED=0 go build -v ./cmd/caddy
 
-COPY artifacts/binaries/$TARGETPLATFORM/caddy /bin/
+# From https://github.com/caddyserver/caddy-docker/blob/master/2.10/alpine/Dockerfile
+FROM alpine:3.21
 
-ENTRYPOINT ["/bin/caddy"]
+RUN mkdir -p \
+  /config/caddy \
+  /data/caddy \
+  /etc/caddy \
+  /usr/share/caddy
 
-CMD ["tailnet-proxy"]
+COPY --from=build /work/caddy /usr/bin/caddy
+COPY --from=build tsconfig/simple.caddyfile /etc/caddy/Caddyfile
+
+# See https://caddyserver.com/docs/conventions#file-locations for details
+ENV XDG_CONFIG_HOME=/config
+ENV XDG_DATA_HOME=/data
+
+EXPOSE 80
+EXPOSE 443
+EXPOSE 443/udp
+EXPOSE 2019
+
+WORKDIR /srv
+
+CMD ["run", "--config", "/etc/caddy/Caddyfile"]
+ENTRYPOINT ["caddy"]
