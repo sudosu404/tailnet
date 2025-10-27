@@ -12,7 +12,7 @@ Say no more, brave sysadmin — **this plugin shoves a full Tailscale node right
 Yes, you heard that right. One binary to rule your tailnet, serve your sites, and occasionally confuse you. :mage:
 
 With **Tailnet Labs**, you can:
-- :puzzle_piece: Serve sites directly on your **Tailnet**
+- :puzzle: Serve sites directly on your **Tailnet**
 - :detective: Proxy requests between Tailscale nodes (yes, through the magic tunnel)
 - :lock: Authenticate users by their Tailscale identity
 - :whale: Run the whole circus inside Docker, because of course you can
@@ -54,7 +54,7 @@ If it works, congrats. If not — hey, you’ve got logs now. :smirk:
 
 ---
 
-## :puzzle_piece: Example Use (a.k.a. Why It’s Kinda Cool)
+## :puzzle: Example Use (a.k.a. Why It’s Kinda Cool)
 
 Want to serve a private site on your tailnet?  
 Just slap this into your `Caddyfile`:
