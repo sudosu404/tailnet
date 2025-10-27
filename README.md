@@ -157,4 +157,4 @@ AGPL-3.0 — because sharing is caring (and slightly legally enforced).
 
 ---
 
-Made with :heart:, and at least 2 cups of coffee by [Tailnet Labs](https://github.com/sudosu404/tailnet).
+Made with :heart:, and at least 2 cups of coffee by [Tailnet Labs](https://github.com/sudosu404/).
