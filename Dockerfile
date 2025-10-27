@@ -28,7 +28,7 @@ RUN mkdir -p \
   /usr/share/caddy
 
 COPY --from=build /work/caddy /usr/bin/caddy
-COPY tsconfig/simple.caddyfile /etc/caddy/Caddyfile
+COPY ./tsconfig/simple.caddyfile /etc/caddy/Caddyfile
 
 # See https://caddyserver.com/docs/conventions#file-locations for details
 ENV XDG_CONFIG_HOME=/config
