@@ -6,13 +6,17 @@
 
 set -e
 
+# Set default ports
+SABLIER_PORT=${SABLIER_PORT:-10000}
+CADDY_PORT=${CADDY_PORT:-2019}
+
 # Track overall health status
 HEALTHY=0
 
 # Check Sablier health (if installed)
 if [ -f /usr/bin/sablier ]; then
-  echo "Checking Sablier health..."
-  if ! curl -sf -o /dev/null http://localhost:34690/health; then
+  echo "Checking Sablier health on port ${SABLIER_PORT}..."
+  if ! curl -sf -o /dev/null http://localhost:${SABLIER_PORT}/health; then
     echo "ERROR: Sablier health check failed"
     HEALTHY=1
   else
@@ -21,8 +25,8 @@ if [ -f /usr/bin/sablier ]; then
 fi
 
 # Check Caddy health
-echo "Checking Caddy health..."
-if ! curl -sf -o /dev/null http://localhost:2019/config; then
+echo "Checking Caddy health on port ${CADDY_PORT}..."
+if ! curl -sf -o /dev/null http://localhost:${CADDY_PORT}/config; then
   echo "ERROR: Caddy health check failed"
   HEALTHY=1
 else

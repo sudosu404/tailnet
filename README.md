@@ -38,6 +38,7 @@ docker run -d \
   -e TAILSCALE_HOSTNAME=tailgate \
   -e TAILNET_NAME=my-tailnet.ts.net \
   -e CLOUDFLARE_API_TOKEN=abc123 \
+  -e SABLIER_PORT=10001 \
   -v tailscale-state:/tailscale \
   -v caddy-config:/etc/caddy \
   -v sablier-config:/etc/sablier \
@@ -54,9 +55,10 @@ services:
     container_name: tailgate
     environment:
       - TAILSCALE_AUTHKEY=tskey-abc123
-      - TAILNET_NAME=my-tailnet.ts.net
-      - TAILSCALE_HOSTNAME=tailgate
+      - TAILNET_NAME=my-tailnet.ts.net 
+      - TAILSCALE_HOSTNAME=tailgate 
       - CLOUDFLARE_API_TOKEN=abc123
+      - SABLIER_PORT=10001
     volumes:
       - tailscale-state:/tailscale
       - caddy-config:/etc/caddy
@@ -108,7 +110,9 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 The `-with-sablier` image variant includes both the Sablier binary and Caddy plugin. Sablier automatically starts on container launch if the binary is present.
 
-To configure Sablier, mount a configuration file at `/etc/sablier/sablier.yml`. For more information on Sablier configuration and usage with Caddy, see the [Sablier documentation](https://sablierapp.dev/).
+To configure Sablier, mount a configuration file at `/etc/sablier/sablier.yml`. For more information on Sablier configuration and usage with Caddy, see the [Sablier documentation](https://sablierapp.dev/). 
+
+Set the `SABLIER_PORT` environment variable to match the port set in your sablier config, if different from the default. 
 
 
 ## Building
