@@ -4,11 +4,21 @@
 
 - **Expose** Caddy services through Tailscale for secure, private connections.
 - Optionally run Caddy with **Cloudflare DNS challenges**, or any other [Caddy plugins](https://caddyserver.com/download).
-  - Now includes an image with [Sablier](https://sablierapp.dev/) out-of-the-box!
+- Now includes an image with [Sablier](https://sablierapp.dev/) out-of-the-box!
 
 The idea was to make a container that would allow you to simply follow this tutorial: [Remotely access and share your self-hosted services](https://www.youtube.com/watch?v=Vt4PDUXB_fg⁠). I decided to create this project after having trouble with existing solutions. 
 
 The container on [Docker Hub](https://hub.docker.com/r/valentemath/tailgate) is built with the Cloudflare plugin preinstalled, but if you need different plugins, you can build your own image by following the instructions [below](#building-with-other-plugins).
+
+## Available Images
+
+Two image variants are available on Docker Hub:
+
+- **`valentemath/tailgate:latest`** - Base image with Tailscale + Caddy + Cloudflare DNS plugin
+- **`valentemath/tailgate:latest-with-sablier`** - Includes Sablier binary and Caddy plugin for dynamic service scaling
+
+Both images are also tagged with version numbers corresponding to the Tailscale version. 
+
 
 ## Getting Started
 
@@ -30,6 +40,7 @@ docker run -d \
   -e CLOUDFLARE_API_TOKEN=abc123 \
   -v tailscale-state:/tailscale \
   -v caddy-config:/etc/caddy \
+  -v sablier-config:/etc/sablier \
   valentemath/tailgate:latest
 ```
 
@@ -50,6 +61,7 @@ services:
     volumes:
       - tailscale-state:/tailscale
       - caddy-config:/etc/caddy
+      - sablier-config:/etc/sablier
 
 volumes:
   tailscale-state:
@@ -76,7 +88,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
   Sets the caddy `--watch` option to automatically reload the configuration when changes are made to the Caddyfile. 
 
 - **CLOUDFLARE_API_TOKEN (optional)**  
-  If you’re using the Cloudflare plugin for [ACME challenges](https://caddyserver.com/docs/caddyfile/directives/tls#dns-providers), set your token here. Then in your `Caddyfile` add:
+  If you're using the Cloudflare plugin for [ACME challenges](https://caddyserver.com/docs/caddyfile/directives/tls#dns-providers), set your token here. Then in your `Caddyfile` add:
   
   ```
   (cloudflare) {
@@ -91,8 +103,14 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
   }
   ```
 
+## Using Sablier
 
-## Building with Other Plugins
+The `-with-sablier` image variant includes both the Sablier binary and Caddy plugin. Sablier automatically starts on container launch if the binary is present.
+
+To configure Sablier, mount a configuration file at `/etc/sablier/sablier.yml`. For more information on Sablier configuration and usage with Caddy, see the [Sablier documentation](https://sablierapp.dev/).
+
+
+## Building
 
 1. **Clone** this repo:
    ```bash
@@ -101,10 +119,7 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
 
 2. Open `docker-compose.yaml`
 
-3. Comment out the `image` tag:
-    ```yaml
-    # image: valentemath/tailgate:latest
-    ```
+3. Change the `image` tag
 
 4. Set the `args/PLUGINS` tag to include whichever plugins you want:
     ```yaml
@@ -112,17 +127,22 @@ This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mou
         PLUGINS: "github.com/caddy-dns/duckdns github.com/caddy-dns/route53"
     ```
 
-5. Build and run: 
+5. To include Sablier, also set the `INCLUDE_SABLIER` argument:
+    ```yaml
+    args:
+        INCLUDE_SABLIER: "true"
+        PLUGINS: "github.com/caddy-dns/duckdns github.com/acouvreur/sablier/plugins/caddy"
+    ```
+
+6. Build and run: 
     ```bash
     docker compose up -d --build
     ```
 
-## Notes
-
-I am new to Docker, so this container might be a bit "chubby." It's built on Debian Bookworm and includes some debugging tools that you might find helpful (`ping`, `dig`, and `nslookup`), should any issues arise. As such, any bug reports or pull requests with improvements are most welcome! 
 
 ## Thanks
 
 - [Tailscale](https://tailscale.com) for secure, peer-to-peer networking.  
 - [Caddy](https://caddyserver.com) for automatic HTTPS and powerful config.  
+- [Sablier](https://sablierapp.dev/) for workload scaling. 
 - Contributors like you!
