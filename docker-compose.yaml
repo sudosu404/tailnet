@@ -13,6 +13,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        INCLUDE_SABLIER: "true"
         PLUGINS: "
           github.com/caddy-dns/cloudflare
           github.com/acouvreur/sablier/plugins/caddy

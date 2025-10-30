@@ -37,7 +37,14 @@ else
   fi
 fi
 
-# Run caddy
+# Start Sablier if available (in background)
+if [ -f /usr/bin/sablier ]; then
+  echo "Starting Sablier..."
+  sablier start --configFile=/etc/sablier/sablier.yml &
+  sleep 2
+fi
+
+# Run caddy (in foreground with exec)
 if [ -f /etc/caddy/Caddyfile ]; then
   # Use the Caddyfile in the /etc/caddy directory if it exists
   if [ "${CADDY_WATCH}" = "true" ]; then

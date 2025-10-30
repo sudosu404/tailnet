@@ -1,13 +1,16 @@
 # syntax=docker/dockerfile:1
 
 ################################################################################
-#                               Stage 1: Builder
+# Stage 1: Builder
+# Builds Caddy with optional plugins using xcaddy
 ################################################################################
 
-# (1) Use debian:bookworm as the base image for the builder stage
 FROM debian:bookworm AS builder
 
-# (2) Install apt dependencies 
+# Golang version for building Caddy
+ARG GOLANG_VERSION=1.25.3
+
+# Install build dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -25,25 +28,24 @@ RUN apt-get update && \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-# (3) Download and install the latest Golang
-RUN wget https://go.dev/dl/go1.23.5.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go1.23.5.linux-amd64.tar.gz \
-    && rm go1.23.5.linux-amd64.tar.gz
+# Download and install Golang
+RUN wget https://go.dev/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \
+  && tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz \
+  && rm go${GOLANG_VERSION}.linux-amd64.tar.gz
 
-# (3) Add Golang to PATH
 ENV PATH="/usr/local/go/bin:$PATH"
 
-# (4) Install xcaddy
+# Install xcaddy for building Caddy with plugins
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-xcaddy-archive-keyring.gpg \
  && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/xcaddy/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-xcaddy.list \
  && apt-get update \
  && apt-get install -y xcaddy \
  && rm -rf /var/lib/apt/lists/*
 
-# (5) Initialize plugin list
+# Optional space-separated list of Caddy plugins to include
 ARG PLUGINS=""
 
-# (6) Build caddy with plugins
+# Build Caddy with or without plugins
 RUN if [ -n "$PLUGINS" ]; then \
     echo "Building custom caddy with plugins: $PLUGINS"; \
     PLUGIN_ARGS=""; \
@@ -58,45 +60,54 @@ RUN if [ -n "$PLUGINS" ]; then \
   
 
 ################################################################################
-#                          Stage 2: Final minimal image
+# Stage 2: Runtime
+# Minimal Debian image with Tailscale, Caddy, and optionally Sablier
 ################################################################################
-# (1) Use debian:bookworm as the base image for the final stage
+
 FROM debian:bookworm
 
-# (2) Install apt dependencies
+# Sablier configuration
+ARG SABLIER_VERSION=1.10.1
+ARG INCLUDE_SABLIER=false
+
+# Install runtime dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       iptables \
       ca-certificates \
       curl \
       vim \
-      # Debugging tools
-      iputils-ping \
-      dnsutils \
-      openresolv \
+      libc6 \
+      jq \
+      # Uncomment for debugging:
+      # iputils-ping \
+      # dnsutils \
+      # openresolv \
+      # file \
     && rm -rf /var/lib/apt/lists/*
 
-# (3) Install Tailscale
+# Install Tailscale from official repository
 RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | tee /usr/share/keyrings/tailscale-archive-keyring.gpg >/dev/null \
  && curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list | tee /etc/apt/sources.list.d/tailscale.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends tailscale \
  && rm -rf /var/lib/apt/lists/*
 
-# (4) Copy the custom caddy binary from the builder stage
+# Optionally install Sablier for dynamic service scaling
+RUN if [ "$INCLUDE_SABLIER" = "true" ]; then \
+  curl -L "https://github.com/sablierapp/sablier/releases/download/v${SABLIER_VERSION}/sablier_${SABLIER_VERSION}_linux-amd64" \
+    -o /usr/bin/sablier \
+    && chmod +x /usr/bin/sablier; \
+  fi
+
+# Copy Caddy binary from builder stage
 COPY --from=builder /caddy /usr/bin/caddy
 
-# (5) Copy the entrypoint script
+# Copy entrypoint and healthcheck scripts
 COPY entrypoint.sh /entrypoint.sh
+COPY healthcheck.sh /healthcheck.sh
 
-# (6) Set the entrypoint script as executable
-RUN chmod +x /entrypoint.sh
+# Make scripts executable
+RUN chmod +x /entrypoint.sh /healthcheck.sh
 
-# (7) Mount volumes for persistent data
-VOLUME ["/etc/caddy", "/tailscale"]
-
-# (8) Set the entrypoint script
 ENTRYPOINT ["/entrypoint.sh"]
-
-# (9) Set the default command to display the caddy version
-CMD ["caddy", "version"]
