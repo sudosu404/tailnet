@@ -41,7 +41,8 @@ docker run -d \
   -v tailscale-state:/tailscale \
   -v caddy-config:/etc/caddy \
   -v sablier-config:/etc/sablier \
-  valentemath/tailgate:latest
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \ 
+  valentemath/tailgate:latest-with-sablier
 ```
 
 #### With `docker compose`
@@ -49,23 +50,23 @@ docker run -d \
 ```yaml
 services:
   tailgate:
-    image: valentemath/tailgate:latest
+    image: valentemath/tailgate:latest-with-sablier
     container_name: tailgate
-
     environment:
       - TAILSCALE_AUTHKEY=tskey-abc123
       - TAILNET_NAME=my-tailnet.ts.net
       - TAILSCALE_HOSTNAME=tailgate
       - CLOUDFLARE_API_TOKEN=abc123
-
     volumes:
       - tailscale-state:/tailscale
       - caddy-config:/etc/caddy
       - sablier-config:/etc/sablier
+      - /var/run/docker.sock:/var/run/docker.sock:ro # For Sablier
 
 volumes:
   tailscale-state:
   caddy-config:
+  sablier-config:
 ```
 
 
