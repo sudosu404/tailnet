@@ -31,8 +31,7 @@ else
   echo "Tailscale not logged in. Using auth key..."
   if [ -n "${TAILSCALE_AUTHKEY}" ]; then
     tailscale up --ssh --authkey="${TAILSCALE_AUTHKEY}" \
-                 --hostname="${TAILSCALE_HOSTNAME}" && \
-    tailscale serve --bg https+insecure://"${TAILSCALE_HOSTNAME}":8006
+                 --hostname="${TAILSCALE_HOSTNAME}"
   else
     echo "WARNING: No auth key provided; skipping tailscale up and serving."
   fi

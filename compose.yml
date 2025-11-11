@@ -51,11 +51,6 @@ services:
       - CADDY_WATCH=true
     volumes:
       - ./tailnet-state:/tailscale
-      - ./caddy-config:/etc/caddy
-      - ./sablier-config:/etc/sablier
       - /var/run/docker.sock:/var/run/docker.sock:ro
-
 volumes:
   tailnet-state:
-  caddy-config:
-  sablier-config:

@@ -67,7 +67,7 @@ cd tailnet && source init.sh
 
 Then set your environment:
 ```bash
-echo -e "TAILSCALE_AUTHKEY=tskey-auth-example-own-key\nTAILNET_NAME=your-own.ts.net\nTAILSCALE_HOSTNAME=pve-tty\nSABLIER_PORT=10001" > .env
+echo -e "TAILSCALE_AUTHKEY=tskey-auth-example-own-key\nTAILNET_NAME=your-own.ts.net\nTAILSCALE_HOSTNAME=pve-tty\nSABLIER_PORT=8006" > .env
 ```
 
 Login to Docker (optional but recommended):

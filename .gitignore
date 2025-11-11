@@ -1,3 +1,6 @@
 .env
 temp
 .storage
+tailnet-state
+caddy-config
+sablier-config
