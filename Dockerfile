@@ -92,14 +92,17 @@ RUN curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg | t
  && apt-get install -y --no-install-recommends tailscale \
  && rm -rf /var/lib/apt/lists/*
 
-# Optionally install Sablier for dynamic service scaling
+# Install Sablier for dynamic service scaling
 RUN if [ "$INCLUDE_SABLIER" = "true" ]; then \
   curl -L "https://github.com/sablierapp/sablier/releases/download/v${SABLIER_VERSION}/sablier_${SABLIER_VERSION}_linux-amd64" \
     -o /usr/bin/sablier \
     && chmod +x /usr/bin/sablier; \
   fi
 
-# Copy Caddy binary from builder stage
+RUN touch /etc/sablier/tailnet.yaml
+COPY node/conf/sablier.tailnet.yaml /etc/sablier/tailnet.yaml
+
+  # Copy Caddy binary from builder stage
 COPY --from=builder /caddy /usr/bin/caddy
 
 # Copy entrypoint and healthcheck scripts

@@ -7,7 +7,7 @@
 set -e
 
 # Set default ports
-SABLIER_PORT=${SABLIER_PORT:-10000}
+SABLIER_PORT=${SABLIER_PORT:-10001}
 CADDY_PORT=${CADDY_PORT:-2019}
 
 # Track overall health status

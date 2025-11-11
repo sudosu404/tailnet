@@ -40,8 +40,8 @@ fi
 
 # Start Sablier if available (in background)
 if [ -f /usr/bin/sablier ]; then
-  echo "Starting Sablier..."
-  sablier start --configFile=/etc/sablier/sablier.yml &
+  echo "Starting Tailnet with sablier..."
+  sablier start --configFile=/etc/sablier/tailnet.yaml &
   sleep 2
 fi
 
