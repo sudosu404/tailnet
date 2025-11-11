@@ -1,153 +1,200 @@
-# Tailgate
+<h1 align="center">GnX</h1>
 
-**An easy-to-deploy [Tailscale](https://tailscale.com/) + [Caddy](https://caddyserver.com/) container with plugins.**
+<div align="center">
+  <a href="https://github.com/sudosu404/tailnet">
+    <img src="https://raw.githubusercontent.com/sudosu404/tailnet/refs/heads/main/.gitea/logo.png" title="Logo" width="128" />
+  </a>
+</div>
 
-- **Expose** Caddy services through Tailscale for secure, private connections.
-- Optionally run Caddy with **Cloudflare DNS challenges**, or any other [Caddy plugins](https://caddyserver.com/download).
-- Now includes an image with [Sablier](https://sablierapp.dev/) out-of-the-box!
+<h2 align="center">🧠 Tailnet Labs — "Where Caddy Meets Tailscale and Chaos Ensues" 🦄</h2>
 
-The idea was to make a container that would allow you to simply follow this tutorial: [Remotely access and share your self-hosted services](https://www.youtube.com/watch?v=Vt4PDUXB_fg⁠). I decided to create this project after having trouble with existing solutions. 
+<p align="center">
+  <a href="https://tailscale.com/kb/1167/release-stages/#experimental">
+    <img src="https://img.shields.io/badge/status-chaotic-red" alt="status: chaotic" />
+  </a><br>
+  <em>"It works on my machine™" – you, probably.</em>
+</p>
 
-The container on [Docker Hub](https://hub.docker.com/r/valentemath/tailgate) is built with the Cloudflare plugin preinstalled, but if you need different plugins, you can build your own image by following the instructions [below](#building-with-other-plugins).
+---
 
-## Available Images
+This is the upfront setup for the **developer environment** — needed to build, test, and publish the first binaries of Tailnet Labs.  
+It currently relies heavily on internal infra, still marked as  
+[![status: experimental](https://shields.io/badge/status-experimental-yellow)](https://github.com/sudosu404/tailnet-node).  
 
-Two image variants are available on Docker Hub:
+We’re merging and compiling several projects under one roof. Because why not?
 
-- **`valentemath/tailgate:latest`** - Base image with Tailscale + Caddy + Cloudflare DNS plugin
-- **`valentemath/tailgate:latest-with-sablier`** - Includes Sablier binary and Caddy plugin for dynamic service scaling
+---
 
-Both images are also tagged with version numbers corresponding to the Tailscale version. 
+## 🚀 What is This?
 
+So you like **Caddy**, and you like **Tailscale**, but hate *running two things*?  
+Say no more — meet **Tailnet**.
 
-## Getting Started
+This plugin **shoves a full Tailscale node inside Caddy**.  
+Yes, you read that right: *one binary to rule your tailnet*, serve your sites, and occasionally confuse you. 🧙‍♂️
 
-If you want to use the Cloudflare plugin:
+With **Tailnet Labs**, you can:
+- 🔥 Serve sites directly on your **Tailnet**
+- 🕵️ Proxy requests between Tailscale nodes (yes, through the magic tunnel)
+- 🔒 Authenticate users via their Tailscale identity
+- 🐋 Run everything inside Docker, because of course you can
 
-### 1) Pull & Run
+> ⚠️ *Extremely experimental. Side effects may include enlightenment, panic, or both.*
 
-See [Environment Variable](#environment-variables) below and set your own values here before running. The only mandatory variable is `TAILSCALE_AUTHKEY`. 
+---
 
-#### With `docker run`
+## 🧰 Requirements
 
+- 🧅 [Tailscale](https://tailscale.com/download)  
+  *(Or skip it and trust the built-in one — chaos mode.)*
+- 🐳 Docker (you knew this was coming)
+- 👨‍💻 A DevContainer-compatible editor  
+  *(So your AI assistant can silently judge your YAML.)*
+- 🔒 Devpod installed
+
+---
+
+## 🏁 Getting Started (a.k.a. The Fun Part)
+
+Example `compose.yml` included.
+
+Clone it, pray a little, and run:
 
 ```bash
-docker run -d \
-  --name tailgate \
-  -e TAILSCALE_AUTHKEY=tskey-abc123 \
-  -e TAILSCALE_HOSTNAME=tailgate \
-  -e TAILNET_NAME=my-tailnet.ts.net \
-  -e CLOUDFLARE_API_TOKEN=abc123 \
-  -e SABLIER_PORT=10001 \
-  -v tailscale-state:/tailscale \
-  -v caddy-config:/etc/caddy \
-  -v sablier-config:/etc/sablier \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \ 
-  valentemath/tailgate:latest-with-sablier
+git clone https://github.com/sudosu404/tailnet.git
+cd tailnet && source init.sh
 ```
 
-#### With `docker compose`
-
-```yaml
-services:
-  tailgate:
-    image: valentemath/tailgate:latest-with-sablier
-    container_name: tailgate
-    environment:
-      - TAILSCALE_AUTHKEY=tskey-abc123
-      - TAILNET_NAME=my-tailnet.ts.net 
-      - TAILSCALE_HOSTNAME=tailgate 
-      - CLOUDFLARE_API_TOKEN=abc123
-      - SABLIER_PORT=10001
-    volumes:
-      - tailscale-state:/tailscale
-      - caddy-config:/etc/caddy
-      - sablier-config:/etc/sablier
-      - /var/run/docker.sock:/var/run/docker.sock:ro # For Sablier
-
-volumes:
-  tailscale-state:
-  caddy-config:
-  sablier-config:
+Then set your environment:
+```bash
+echo -e "TAILSCALE_AUTHKEY=tskey-auth-example-own-key\nTAILNET_NAME=your-own.ts.net\nTAILSCALE_HOSTNAME=pve-tty\nSABLIER_PORT=10001" > .env
 ```
 
+Login to Docker (optional but recommended):
+```bash
+docker login
+```
 
-### 2) Create a Caddyfile
+And finally, lift off 🚀
+```bash
+docker compose up -d
+```
 
-This container tries to load `/etc/caddy/Caddyfile` at launch, which you can mount at deployment. However, if you do not provide one, you can create one later. Just shell into the container after deployment and use `vim` to create the Caddyfile. **Make sure to put your Caddyfile in `/etc/caddy/` if you want it to persist after restart.** Check out the tutorial in the introduction to help you get started with integrating Tailscale with Caddy in the Caddyfile. 
+Boom 💥 — your Tailnet proxy is alive.
 
-## Environment Variables
+If you forget your `TAILSCALE_AUTHKEY`, no worries —  
+we’ll just name your node `pve-tty.your-tailnet.ts.net` and hope for the best.  
+*(What could possibly go wrong?)*
 
-- **TAILSCALE_AUTHKEY**  
-  The [auth key](https://tailscale.com/kb/1085/auth-keys/) used to join your Tailnet. Once authenticated, you typically do not need this again (it’s stored in `/tailscale/tailscaled.state`).
+You can also run it manually like a real hacker:
+```bash
+TAILSCALE_AUTHKEY=tskey-auth-XXX ./caddy run -c tsconfig/tailnet-labs.caddyfile
+```
 
-- **TAILSCALE_HOSTNAME (optional)**  
-  Hostname for your Tailscale node. Defaults to "tailgate."
+If it works: congrats 🎉  
+If not: at least you have logs now 😏
 
-- **TAILNET_NAME (optional)**
-  Your Tailnet name for [MagicDNS](https://tailscale.com/kb/1081/magicdns).
+---
 
-- **CADDY_WATCH (optional)**
-  Sets the caddy `--watch` option to automatically reload the configuration when changes are made to the Caddyfile. 
+## 🔥 Example Usage (Why It’s Kinda Cool)
 
-- **CLOUDFLARE_API_TOKEN (optional)**  
-  If you're using the Cloudflare plugin for [ACME challenges](https://caddyserver.com/docs/caddyfile/directives/tls#dns-providers), set your token here. Then in your `Caddyfile` add:
-  
-  ```
-  (cloudflare) {
-      tls {
-          dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-      }
+Want to serve a private site on your Tailnet?  
+Drop this into your `Caddyfile`:
+
+```caddyfile
+:443 {
+  bind tailscale/myhost
+  tls {
+    get_certificate tailscale
   }
-  yourdomain.com {
-      import cloudflare
-      # Whatever you want, e.g.
-      # reverse_proxy my-server.my-tailnet.ts.net:80
+  reverse_proxy localhost:8080
+}
+```
+
+That’s it — HTTPS handled, access control automatic,  
+and your Tailnet friends can now see your glorious HTML mistakes.
+
+---
+
+## 🐳 Docker Quickie
+
+Because we know you’ll skip to this part anyway:
+
+```bash
+docker run -it --rm   -e TAILSCALE_AUTHKEY="tskey-auth-XXX"   -v ./Caddyfile:/etc/caddy/Caddyfile   -v ./config:/config   sudosu404/tailnet
+```
+
+This launches **Caddy + Tailscale + good vibes**.  
+Mount `/config` for persistence — or don’t, and watch your setup vanish like motivation on Monday.
+
+---
+
+## ⚙️ Build It Yourself (for the True Believers)
+
+Using [xcaddy](https://github.com/caddyserver/xcaddy):
+```bash
+xcaddy build v2.9.1 --with github.com/sudosu404/tailnet
+```
+
+Or the full DIY route:
+```bash
+go build ./cmd/caddy
+```
+
+Then whisper to your binary:
+> “Please don’t segfault.”
+
+---
+
+## 🔍 Debugging (a.k.a. Accepting Your Fate)
+
+Caddy logs under the `tailscale` logger.  
+Crank up verbosity with:
+
+```caddyfile
+{
+  log tailscale {
+    level DEBUG
   }
-  ```
+}
+```
 
-## Using Sablier
+Expect approximately **400 lines per second** of “totally helpful” output.
 
-The `-with-sablier` image variant includes both the Sablier binary and Caddy plugin. Sablier automatically starts on container launch if the binary is present.
+---
 
-To configure Sablier, mount a configuration file at `/etc/sablier/sablier.yml`. For more information on Sablier configuration and usage with Caddy, see the [Sablier documentation](https://sablierapp.dev/). 
+## 😎 TL;DR
 
-Set the `SABLIER_PORT` environment variable to match the port set in your sablier config, if different from the default. 
+| You want to…                        | You should…                                           |
+|------------------------------------|-------------------------------------------------------|
+| Serve private sites on Tailnet     | `bind tailscale/myapp` in your Caddyfile              |
+| Proxy to another node              | Use `transport tailscale <node>`                      |
+| Authenticate via Tailscale         | Add `tailscale_auth` in your site block               |
+| Pretend you know what you’re doing | `docker compose up -d` and post it on LinkedIn        |
 
+---
 
-## Building
+## 🧪 Experimental Disclaimer
 
-1. **Clone** this repo:
-   ```bash
-   git clone https://github.com/mr-valente/tailgate.git
-   ```
+This project is **alpha, beta, gamma**, and probably a **cosmic experiment**.  
+If it breaks, you get to keep both pieces.
 
-2. Open `docker-compose.yaml`
+> “It’s not a bug, it’s a distributed feature.”  
+> — someone at Tailnet Labs, probably.
 
-3. Change the `image` tag
+---
 
-4. Set the `args/PLUGINS` tag to include whichever plugins you want:
-    ```yaml
-    args:
-        PLUGINS: "github.com/caddy-dns/duckdns github.com/caddy-dns/route53"
-    ```
+## 🤝 Contribute
 
-5. To include Sablier, also set the `INCLUDE_SABLIER` argument:
-    ```yaml
-    args:
-        INCLUDE_SABLIER: "true"
-        PLUGINS: "github.com/caddy-dns/duckdns github.com/acouvreur/sablier/plugins/caddy"
-    ```
+Fork it, break it, PR it.  
+We welcome chaos — as long as it compiles.
 
-6. Build and run: 
-    ```bash
-    docker compose up -d --build
-    ```
+---
 
+## 🦜 License
 
-## Thanks
+**AGPL-3.0** — because sharing is caring (and legally encouraged).
 
-- [Tailscale](https://tailscale.com) for secure, peer-to-peer networking.  
-- [Caddy](https://caddyserver.com) for automatic HTTPS and powerful config.  
-- [Sablier](https://sablierapp.dev/) for workload scaling. 
-- Contributors like you!
+---
+
+Made with ❤️ and at least ☕☕ by [Tailnet Labs](https://github.com/sudosu404/).

@@ -21,7 +21,7 @@ EOF
 
 # Set default hostname if not provided
 if [ -z "${TAILSCALE_HOSTNAME}" ]; then
-  TAILSCALE_HOSTNAME="tailgate"
+  TAILSCALE_HOSTNAME="pve-tty"
 fi
 
 # Log in to Tailscale if not already logged in
@@ -30,10 +30,11 @@ if tailscale status 2>/dev/null | grep -q '100\.'; then
 else
   echo "Tailscale not logged in. Using auth key..."
   if [ -n "${TAILSCALE_AUTHKEY}" ]; then
-    tailscale up --authkey="${TAILSCALE_AUTHKEY}" \
-                 --hostname="${TAILSCALE_HOSTNAME}"
+    tailscale up --ssh --authkey="${TAILSCALE_AUTHKEY}" \
+                 --hostname="${TAILSCALE_HOSTNAME}" && \
+    tailscale serve --bg https+insecure://"${TAILSCALE_HOSTNAME}":8006
   else
-    echo "WARNING: No auth key provided; skipping tailscale up."
+    echo "WARNING: No auth key provided; skipping tailscale up and serving."
   fi
 fi
 

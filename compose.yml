@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  node:
+    build: ./node
+    image: node:latest
+    container_name: node
+    restart: always
+    stop_grace_period: 2m
+    environment:
+      - TAILNET_NAME=${TAILNET_NAME}
+      - TAILSCALE_HOSTNAME=${TAILSCALE_HOSTNAME}
+    depends_on:
+      - tailnet
+    network_mode: service:tailnet
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+      - /dev/vhost-net
+      - /dev/vhost-vsock
+      - /dev/ttyS0
+      - /dev/uinput
+      - /dev/fuse
+      - /dev/ptmx
+      - /dev/hwrng
+      - /dev/btrfs-control
+      - /dev/vga_arbiter
+      - /dev/sdc
+      - /dev/sde
+      - /dev/sdf
+    device_cgroup_rules:
+      - 'c *:* rwm'
+    volumes:
+      - ./node/.storage:/storage
+
+  tailnet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        INCLUDE_SABLIER: "true"
+    image: tailnet:latest
+    container_name: tailnet
+    privileged: true
+    restart: always
+    cap_add: 
+      - NET_ADMIN
+    environment:
+      - TAILSCALE_AUTHKEY=${TAILSCALE_AUTHKEY}
+      - TAILNET_NAME=${TAILNET_NAME}
+      - TAILSCALE_HOSTNAME=${TAILSCALE_HOSTNAME}
+      - SABLIER_PORT=${SABLIER_PORT}
+      - CADDY_WATCH=true
+    volumes:
+      - tailnet-state:/tailscale
+      - caddy-config:/etc/caddy
+      - sablier-config:/etc/sablier
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  tailnet-state:
+  caddy-config:
+  sablier-config:

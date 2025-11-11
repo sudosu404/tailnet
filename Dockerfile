@@ -68,7 +68,7 @@ FROM debian:bookworm
 
 # Sablier configuration
 ARG SABLIER_VERSION=1.10.1
-ARG INCLUDE_SABLIER=false
+ARG INCLUDE_SABLIER=true
 
 # Install runtime dependencies
 RUN apt-get update && \
@@ -79,11 +79,10 @@ RUN apt-get update && \
       vim \
       libc6 \
       jq \
-      # Uncomment for debugging:
-      # iputils-ping \
-      # dnsutils \
-      # openresolv \
-      # file \
+      iputils-ping \
+      dnsutils \
+      openresolv \
+      file \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Tailscale from official repository
