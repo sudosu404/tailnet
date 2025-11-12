@@ -1,7 +1,7 @@
 FROM debian:trixie-slim
 
 ARG TARGETARCH="amd64"
-ARG VERSION_ARG="0.0.1"
+ARG VERSION_ARG="0.0.2"
 ARG VERSION_UTK="1.2.0"
 ARG VERSION_VNC="1.7.0-beta"
 ARG VERSION_PASST="2025_09_19"
@@ -79,6 +79,6 @@ ENV DISK_SIZE=172G
 ENV DISK_FMT=qcow2
 ENV DISK_TYPE=scsi
 ENV DISK_IO=threads
-
+ENV DEBUG="Y"
 
 ENTRYPOINT ["/usr/bin/tini", "-s", "/run/entry.sh"]

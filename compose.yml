@@ -5,8 +5,6 @@ services:
     build: ./node
     image: node:latest
     container_name: node
-    restart: always
-    stop_grace_period: 2m
     environment:
       - TAILNET_NAME=${TAILNET_NAME}
       - TAILSCALE_HOSTNAME=${TAILSCALE_HOSTNAME}
@@ -15,23 +13,19 @@ services:
     network_mode: service:tailnet
     devices:
       - /dev/kvm
-      - /dev/net/tun
       - /dev/vhost-net
-      - /dev/vhost-vsock
-      - /dev/ttyS0
-      - /dev/uinput
       - /dev/fuse
       - /dev/ptmx
       - /dev/hwrng
       - /dev/btrfs-control
       - /dev/vga_arbiter
       - /dev/sdc
-      - /dev/sde
-      - /dev/sdf
     device_cgroup_rules:
       - 'c *:* rwm'
     volumes:
       - ./node/.storage:/storage
+    stop_grace_period: 2m
+    restart: always
 
   tailnet:
     build:
@@ -39,8 +33,6 @@ services:
       dockerfile: Dockerfile
     image: tailnet:latest
     container_name: tailnet
-    privileged: true
-    restart: always
     cap_add: 
       - NET_ADMIN
     environment:
@@ -52,5 +44,7 @@ services:
     volumes:
       - ./tailnet-state:/tailscale
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    privileged: true
+    restart: always
 volumes:
   tailnet-state:
