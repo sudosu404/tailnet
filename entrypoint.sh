@@ -21,7 +21,7 @@ EOF
 
 # Set default hostname if not provided
 if [ -z "${TAILSCALE_HOSTNAME}" ]; then
-  TAILSCALE_HOSTNAME="pve-tty"
+  TAILSCALE_HOSTNAME="node"
 fi
 
 # Log in to Tailscale if not already logged in

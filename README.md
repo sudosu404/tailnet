@@ -1,4 +1,4 @@
-<h1 align="center">GnX</h1>
+<h1 align="center">Tailnet by GnX Labs</h1>
 
 <div align="center">
   <a href="https://github.com/sudosu404/tailnet">
@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://tailscale.com/kb/1167/release-stages/#experimental">
     <img src="https://img.shields.io/badge/status-chaotic-red" alt="status: chaotic" />
+    <img src="https://shields.io/badge/status-experimental-yellow" alt="status: experimental" />
   </a><br>
   <em>"It works on my machine™" – you, probably.</em>
 </p>
@@ -67,12 +68,7 @@ cd tailnet && source init.sh
 
 Then set your environment:
 ```bash
-echo -e "TAILSCALE_AUTHKEY=tskey-auth-example-own-key\nTAILNET_NAME=your-own.ts.net\nTAILSCALE_HOSTNAME=pve-tty\nSABLIER_PORT=8006" > .env
-```
-
-Login to Docker (optional but recommended):
-```bash
-docker login
+echo -e "TAILSCALE_AUTHKEY=tskey-auth-example-own-key\nTAILNET_NAME=your-own.ts.net\nTAILSCALE_HOSTNAME=node\nSABLIER_PORT=10001" > .env
 ```
 
 And finally, lift off 🚀
@@ -83,12 +79,12 @@ docker compose up -d
 Boom 💥 — your Tailnet proxy is alive.
 
 If you forget your `TAILSCALE_AUTHKEY`, no worries —  
-we’ll just name your node `pve-tty.your-tailnet.ts.net` and hope for the best.  
+we’ll just name your node `node.your-tailnet.ts.net` and hope for the best.  
 *(What could possibly go wrong?)*
 
 You can also run it manually like a real hacker:
 ```bash
-TAILSCALE_AUTHKEY=tskey-auth-XXX ./caddy run -c tsconfig/tailnet-labs.caddyfile
+TAILSCALE_AUTHKEY=tskey-auth-XXX ./caddy run -c node//config/tailnet-labs.caddyfile
 ```
 
 If it works: congrats 🎉  
@@ -103,7 +99,7 @@ Drop this into your `Caddyfile`:
 
 ```caddyfile
 :443 {
-  bind tailscale/myhost
+  bind tailscale/node
   tls {
     get_certificate tailscale
   }
